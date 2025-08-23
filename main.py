@@ -17,6 +17,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+        # Update player's position from inputs
+        player.update(dt)
         
         # Draw black background
         screen.fill("black")
