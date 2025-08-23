@@ -41,10 +41,16 @@ def main():
         # Update player's position from inputs
         updatable.update(dt)
         
+        # Asteroid-player collision
         for asteroid in asteroids:
             if asteroid.collision(player):
                 print("Game over!")
                 sys.exit()
+                
+            for shot in shots:
+                if asteroid.collision(shot):
+                    shot.kill()
+                    asteroid.kill()
         
         # Draw black background
         screen.fill("black")
