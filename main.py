@@ -15,7 +15,7 @@ def main():
     clock = pygame.time.Clock()
     
     # Text font
-    font = pygame.font.Font(pygame.font.get_default_font(), 30)
+    font = pygame.font.Font(pygame.font.get_default_font(), 40)
     
     # Groups
     updatable = pygame.sprite.Group()
@@ -46,8 +46,10 @@ def main():
                 run_game = False
         
         if state == "INTRO":
-            text = font.render("START - Press enter", True, (255,255,255))
-            screen.blit(text, (screen_centre[0] - text.get_width()//2, screen_centre[1]))
+            welcome_text = font.render("Welcome to Asteroids!", False, WHITE)
+            screen.blit(welcome_text, (screen_centre[0] - welcome_text.get_width()//2, screen_centre[1] - welcome_text.get_height()//0.2))
+            start_text = font.render("START - Press enter", False, GREEN)
+            screen.blit(start_text, (screen_centre[0] - start_text.get_width()//2, screen_centre[1]))
             pygame.display.update()
             keys = pygame.key.get_pressed()
 
