@@ -10,8 +10,12 @@ def main():
     # Initialise pygame and screen
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen_centre = screen.get_rect().center
     # Clock and delta t
     clock = pygame.time.Clock()
+    
+    # Text font
+    font = pygame.font.Font(pygame.font.get_default_font(), 30)
     
     # Groups
     updatable = pygame.sprite.Group()
@@ -32,36 +36,53 @@ def main():
     
     dt = 0
     
-    while True:
+    state = "INTRO"
+    run_game = True
+    
+    while run_game:
         # Quit condition
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
-            
-        # Update player's position from inputs
-        updatable.update(dt)
+                run_game = False
         
-        # Asteroid-player collision
-        for asteroid in asteroids:
-            if asteroid.collision(player):
-                print("Game over!")
-                sys.exit()
+        if state == "INTRO":
+            text = font.render("START - Press enter", True, (255,255,255))
+            screen.blit(text, (screen_centre[0] - text.get_width()//2, screen_centre[1]))
+            pygame.display.update()
+            keys = pygame.key.get_pressed()
+
+            if keys[pygame.K_RETURN]:
+                state = "GAME"
+            
+        elif state == "GAME":
+            # Update player's position from inputs
+            updatable.update(dt)
+            
+            # Asteroid-player collision
+            for asteroid in asteroids:
+                if asteroid.collision(player):
+                    state = "GAMEOVER"
+                    print("Game over!")
+                    sys.exit()
+                    
+                for shot in shots:
+                    if asteroid.collision(shot):
+                        shot.kill()
+                        asteroid.split()
+            
+            # Draw black background
+            screen.fill("black")
+            # Draw items to screen (player, asteroids, shots)
+            for item in drawable:
+                item.draw(screen)
                 
-            for shot in shots:
-                if asteroid.collision(shot):
-                    shot.kill()
-                    asteroid.split()
-        
-        # Draw black background
-        screen.fill("black")
-        # Draw items to screen (player, asteroids, shots)
-        for item in drawable:
-            item.draw(screen)
+            pygame.display.flip()
             
-        pygame.display.flip()
-        
-        #Limit framerate to 60 FPS
-        dt = clock.tick(60)/1000
+            #Limit framerate to 60 FPS
+            dt = clock.tick(60)/1000
+            
+        elif state == "GAMEOVER":
+            pass
 
 
 if __name__ == "__main__":
