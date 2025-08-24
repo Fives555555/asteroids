@@ -25,6 +25,7 @@ uv run main.py
 ```
 
 ## How to play
+Initially, press <kbd>return</kbd> to begin the game.
 
 Press <kbd>w</kbd> to move forward.
 Press <kbd>s</kbd> to move backward.
