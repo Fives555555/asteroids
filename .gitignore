@@ -11,3 +11,6 @@ wheels/
 
 # VS Code workspace
 Asteroids.code-workspace
+
+# Logs
+game_state.jsonl
